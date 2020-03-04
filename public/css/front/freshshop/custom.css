@@ -1,0 +1,88 @@
+
+/** ADD YOUR AWESOME CODES HERE **/
+.mask-icon button.cart {
+    background: #b0b435;
+    position: absolute;
+    bottom: 0;
+    left: 0px;
+    padding: 10px 20px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.why-text.full-width button {
+    padding: 10px 20px;
+    font-weight: 700;
+    color: #ffffff;
+    border: none;
+}
+
+.update-box button[type="submit"] {
+    background: #000000;
+    border: medium none;
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: #fff;
+    display: inline-block;
+    float: right;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    height: 50px;
+    line-height: 40px;
+    margin-right: 15px;
+    padding: 0 20px;
+    text-shadow: none;
+    text-transform: uppercase;
+    -webkit-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    white-space: nowrap;
+    width: inherit;
+}
+
+.update-box button[type="submit"]:hover {
+    background: #b0b435;
+}
+
+.out-of-stock {
+    background-color: #c4bdbd;
+}
+
+/* order */
+.order-search-bar {
+    padding:0 20px;
+    width: 100%;
+}
+
+/* shop */
+.mask-icon ul li button {
+    color: #ffffff;
+    padding: 5px 10px;
+    display: block;
+    background-color: transparent;
+    border: none;
+}
+
+.mask-icon ul li button:hover {
+    background: #000000;
+    color: #ffffff;
+}
+
+/* product_detail button */
+.card-outline-secondary .card-body button, .btn-comment{
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 12px 25px;
+    border: none;
+}
+
+.card-outline-secondary .card-body .comment-block {
+    border-width: 1px;
+    border-style: none none solid none;
+}
+
+.media-body {
+    margin: 10px;
+}
