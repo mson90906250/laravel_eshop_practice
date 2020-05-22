@@ -48,6 +48,7 @@ class LinePay implements PaymentInterface {
                 'name' => sprintf('%s (%s)', $stock->product->name, $stock->attribute),
                 'quantity' => $stock->pivot->quantity,
                 'price' => $stock->price,
+                'imageUrl' => asset($stock->image ? $stock->image->url : '')
             ];
 
         }
