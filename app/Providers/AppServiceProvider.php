@@ -18,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if (App::environment('local') && env('APP_URL') == 'http://localhost') {
+        if (App::environment('local') && env('APP_URL') == 'http://markeshoppractice.hopto.org') {
             Event::listen('Illuminate\Database\Events\QueryExecuted', function ($query) {
                 // filter oauth ones
                 if (!Str::contains($query->sql, 'oauth')) {
