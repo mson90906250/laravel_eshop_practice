@@ -45,6 +45,8 @@
 
                                 <li>{{ sprintf('收件地址 %s', $order->full_address) }}</li>
 
+                                <li>{{ sprintf('貨運狀態: %s', '???') }}</li>
+
                             </ul>
 
                         </div>
@@ -55,11 +57,15 @@
 
                                 <li>{{ sprintf('付款狀態: %s', Order::getPaymentStatusList()[$order->payment_status]) }}</li>
 
-                                <li>{{ sprintf('貨運狀態: %s', '???') }}</li>
+                                <li>{{ sprintf('總金額 %d', $order->total) }}</li>
+
+                                <li>{{ sprintf('運費 %d', $order->shipping_fee) }}</li>
+
+                                <li>{{ sprintf('折抵金額 %d', $order->coupon_discount) }}</li>
 
                             </ul>
 
-                            @if ($order->payment_status === Order::PAYMENT_STATUS_HAS_PAID_AND_AUTHORIZED)
+                            @if ($order->payment_status === Order::PAYMENT_STATUS_NOT_PAID)
 
                                 <div class="mt-3">
 
@@ -68,7 +74,8 @@
 
                                 </div>
 
-                            @elseif ($order->payment_status === Order::PAYMENT_STATUS_HAS_PAID_AND_CONFIRMED)
+                            @elseif ($order->payment_status !== Order::PAYMENT_STATUS_NOT_PAID
+                                    && $order->payment_status !== Order::PAYMENT_STATUS_REFUNDED)
 
                                 <div class="mt-3">
 
