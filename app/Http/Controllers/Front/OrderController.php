@@ -188,11 +188,11 @@ class OrderController extends CustomController
 
                 }
 
-                $cartTotal = $cart->getTotal(); //此行一定要在parsedRawValue的前面 不然會得不到parsedRawValue
+                $cartTotal = round($cart->getTotal()); //此行一定要在parsedRawValue的前面 不然會得不到parsedRawValue
 
                 $shippingFee = $cart->getConditions()->get('shipping-fee')->parsedRawValue ?? 0;
 
-                $couponDiscount = $cart->getConditions()->get('coupon')->parsedRawValue ?? 0;
+                $couponDiscount = round($cart->getConditions()->get('coupon')->parsedRawValue) ?? 0;
 
                 //創建訂單
                 $order = new Order([
@@ -302,7 +302,7 @@ class OrderController extends CustomController
 
             $errors = new MessageBag(['查無此訂單']);
 
-            return redirect('order.index')->withErrors($errors);
+            return redirect(route('order.index'))->withErrors($errors);
 
         }
 
@@ -312,40 +312,6 @@ class OrderController extends CustomController
             'order' => $order,
             'stocks' => $stocks,
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 
     /**
@@ -490,6 +456,8 @@ class OrderController extends CustomController
             $paymentMethod = resolve($paymentMethod);
 
             $result = $paymentMethod->cancelRequest($order);
+
+
 
             if (!$result['isSuccess'] || !$this->rollback($order)) {
 

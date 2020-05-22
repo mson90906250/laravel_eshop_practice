@@ -17,7 +17,7 @@
 
             var shippingFee = Number($(this).data('fee'));
 
-            var productTotal = Number({{ $cart->getTotal() }});
+            var productTotal = Number({{ round($cart->getTotal()) }});
 
             $('#shipping-fee').text(shippingFee ? shippingFee : '免費');
 
@@ -439,7 +439,7 @@
 
                                         @if ($cart->getConditions()->get('coupon'))
 
-                                            <div class="ml-auto font-weight-bold"> {{ $cart->getConditions()->get('coupon')->parsedRawValue }} </div>
+                                            <div class="ml-auto font-weight-bold"> {{ round($cart->getConditions()->get('coupon')->parsedRawValue) }} </div>
 
                                         @else
 
@@ -465,7 +465,7 @@
 
                                     <div class="ml-auto h5" id="total">
 
-                                        {{ sprintf('$ %d', $cart->getTotal()) }}
+                                        {{ sprintf('$ %d', round($cart->getTotal())) }}
 
                                     </div>
 
