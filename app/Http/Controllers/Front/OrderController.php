@@ -192,7 +192,7 @@ class OrderController extends CustomController
 
                 $shippingFee = $cart->getConditions()->get('shipping-fee')->parsedRawValue ?? 0;
 
-                $couponDiscount = round($cart->getConditions()->get('coupon')->parsedRawValue) ?? 0;
+                $couponDiscount = round($cart->getConditions()->get('coupon')->parsedRawValue ?? 0) ;
 
                 //創建訂單
                 $order = new Order([
@@ -453,15 +453,26 @@ class OrderController extends CustomController
 
             }
 
-            $paymentMethod = resolve($paymentMethod);
+            // 針對linepay 如果沒有data的話則直接rollback不需經過logic處理
+            if (empty($order->data)) {
 
-            $result = $paymentMethod->cancelRequest($order);
+                if (!$this->rollback($order)) {
 
+                    throw new ErrorException('取消訂單失敗');
 
+                }
 
-            if (!$result['isSuccess'] || !$this->rollback($order)) {
+            } else {
 
-                throw new ErrorException('取消訂單失敗');
+                $paymentMethod = resolve($paymentMethod);
+
+                $result = $paymentMethod->cancelRequest($order);
+
+                if (!$result['isSuccess'] || !$this->rollback($order)) {
+
+                    throw new ErrorException('取消訂單失敗');
+
+                }
 
             }
 

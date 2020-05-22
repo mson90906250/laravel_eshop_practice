@@ -65,7 +65,9 @@
 
                             </ul>
 
-                            @if ($order->payment_status === Order::PAYMENT_STATUS_NOT_PAID)
+                            @if ($order->payment_status === Order::PAYMENT_STATUS_NOT_PAID
+                                    && $order->order_status !== Order::ORDER_STATUS_CANCEL
+                                    && $order->order_status !== Order::ORDER_STATUS_COMPLETE)
 
                                 <div class="mt-3">
 
