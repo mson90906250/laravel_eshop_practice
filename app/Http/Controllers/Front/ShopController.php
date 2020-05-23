@@ -149,6 +149,8 @@ class ShopController extends CustomController
 
         }
 
+        $query->where('p.status', '=', Product::STATUS_ON);
+
         $query->joinSub($subPriceQuery, 'tmp', 'p.id', '=', 'tmp.product_id');
 
         $products = $query->groupBy(['p.id', 'i.url'])->get();
