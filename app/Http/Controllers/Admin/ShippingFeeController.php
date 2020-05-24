@@ -93,12 +93,26 @@ class ShippingFeeController extends CustomController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'id'        => ['required', 'array'],
+            'id.*'      => ['required', 'integer', 'exists:shipping_fee,id']
+        ]);
+
+        $deleteQuery = ShippingFee::whereIn('id', $validatedData['id'])
+                                    ->delete();
+
+        if (!$deleteQuery) {
+
+            return redirect()->back()->withErrors(new MessageBag(['刪除失敗']));
+
+        }
+
+        return redirect()->back()->with('status', '刪除成功');
+
     }
 
     protected function search(Request $request)
