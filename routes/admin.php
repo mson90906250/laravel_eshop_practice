@@ -149,6 +149,21 @@ Route::group([
     Route::put('/coupon/updateStatus', 'CouponController@updateStatus')->name('admin.coupon.updateStatus');
 
     Route::delete('/coupon/delele', 'CouponController@destroy')->name('admin.coupon.destroy');
+
+    //shippingFee
+    Route::get('/shipping_fee', 'ShippingFeeController@index')->name('admin.shippingFee.index');
+
+    Route::get('/shipping_fee/create', 'ShippingFeeController@create')->name('admin.shippingFee.create');
+
+    Route::post('/shipping_fee/create', 'ShippingFeeController@store')->name('admin.shippingFee.store');
+
+    Route::get('/shipping_fee/{shippingFee}/edit', 'ShippingFeeController@edit')->name('admin.shippingFee.edit');
+
+    Route::put('/shipping_fee/{shippingFee}/edit', 'ShippingFeeController@update')->name('admin.shippingFee.update');
+
+    Route::put('/shipping_fee/updateStatus', 'ShippingFeeController@updateStatus')->name('admin.shippingFee.updateStatus');
+
+    Route::delete('/shipping_fee/delete', 'ShippingFeeController@destroy')->name('admin.shippingFee.destroy');
 });
 
 

@@ -107,6 +107,7 @@
                         <a class="collapse-item" href="{{ route('admin.brand.index') }}">品牌列表</a>
                         <a class="collapse-item" href="{{ route('admin.coupon.index') }}">優惠券列表</a>
                         <a class="collapse-item" href="{{ route('admin.comment.index') }}">評論列表</a>
+                        <a class="collapse-item" href="{{ route('admin.shippingFee.index') }}">運費列表</a>
                         <a class="collapse-item" href="{{ route('admin.category.index') }}">商品類型列表</a>
                     </div>
                 </div>

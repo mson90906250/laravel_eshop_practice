@@ -15,6 +15,14 @@ class ShippingFee extends Model
 
     protected $table = 'shipping_fee';
 
+    public static function getStatusLabels()
+    {
+        return [
+            self::STATUS_ON => '開啓',
+            self::STATUS_OFF => '關閉'
+        ];
+    }
+
     public static function getTypeList()
     {
         return [
