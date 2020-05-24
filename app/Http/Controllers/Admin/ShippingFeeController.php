@@ -6,6 +6,7 @@ use App\Models\ShippingFee;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Common\CustomController;
+use Illuminate\Support\MessageBag;
 
 class ShippingFeeController extends CustomController
 {
@@ -67,6 +68,26 @@ class ShippingFeeController extends CustomController
     public function update(Request $request, $id)
     {
         //
+    }
+
+    public function updateStatus(Request $request)
+    {
+        $validatedData = $request->validate([
+            'status'    => ['required', 'integer', Rule::in(array_keys(ShippingFee::getStatusLabels()))],
+            'id'        => ['required', 'array'],
+            'id.*'      => ['required', 'integer', 'exists:shipping_fee,id']
+        ]);
+
+        $updateQuery = ShippingFee::whereIn('id', $validatedData['id'])
+                                    ->update(['status' => $validatedData['status']]);
+
+        if (!$updateQuery) {
+
+            return redirect()->back()->withErrors(new MessageBag(['狀態更新失敗']));
+
+        }
+
+        return redirect()->back()->with('status', '狀態更新成功');
     }
 
     /**

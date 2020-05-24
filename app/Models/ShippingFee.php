@@ -15,6 +15,8 @@ class ShippingFee extends Model
 
     protected $table = 'shipping_fee';
 
+    public $timestamps = FALSE;
+
     public static function getStatusLabels()
     {
         return [
