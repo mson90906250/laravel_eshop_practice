@@ -14,6 +14,7 @@ class ShippingFee extends Model
     CONST STATUS_OFF = 2;
 
     protected $table = 'shipping_fee';
+    protected $fillable = ['name', 'value', 'required_value', 'type', 'status'];
 
     public $timestamps = FALSE;
 

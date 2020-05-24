@@ -174,7 +174,7 @@
 
                     {!! Form::button('關閉', ['class' => 'btn btn-danger', 'type' => 'submit', 'value' => ShippingFee::STATUS_OFF, 'name' => 'status']) !!}
 
-                    {!! Form::button('刪除優惠券', ['class' => 'btn btn-warning', 'type' => 'button', 'id' => 'btn-delete-shippingFee']) !!}
+                    {!! Form::button('刪除運費', ['class' => 'btn btn-warning', 'type' => 'button', 'id' => 'btn-delete-shippingFee']) !!}
 
                     <a href="{{ route('admin.shippingFee.create') }}" class="btn btn-info">新增運費規則</a>
 

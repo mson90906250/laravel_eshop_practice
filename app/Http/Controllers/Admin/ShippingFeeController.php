@@ -33,7 +33,7 @@ class ShippingFeeController extends CustomController
      */
     public function create()
     {
-        //
+        return view('admin.shipping_fee.create');
     }
 
     /**
@@ -44,30 +44,65 @@ class ShippingFeeController extends CustomController
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name'              => ['nullable', 'string'],
+            'value'             => ['nullable', 'integer', 'min:0'],
+            'required_value'    => ['nullable', 'integer', 'min:0'],
+            'type'              => ['nullable', 'integer', Rule::in(array_keys(ShippingFee::getTypeList()))],
+            'status'            => ['nullable', 'integer', Rule::in(array_keys(ShippingFee::getStatusLabels()))],
+        ]);
+
+        $createQuery = ShippingFee::create($validatedData);
+
+        if (!$createQuery) {
+
+            return redirect()->back()->withErrors(new MessageBag(['創建失敗']));
+
+        }
+
+        return redirect(route('admin.shippingFee.index'))->with('status', '創建成功');
+
+
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  ShippingFee $shippingFee
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(ShippingFee $shippingFee)
     {
-        //
+        return view('admin.shipping_fee.edit', [
+            'shippingFee' => $shippingFee
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  ShippingFee $shippingFee
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, ShippingFee $shippingFee)
     {
-        //
+        $validatedData = $request->validate([
+            'name'              => ['required', 'string'],
+            'value'             => ['required', 'integer', 'min:0'],
+            'required_value'    => ['required', 'integer', 'min:0'],
+            'type'              => ['required', 'integer', Rule::in(array_keys(ShippingFee::getTypeList()))],
+            'status'            => ['required', 'integer', Rule::in(array_keys(ShippingFee::getStatusLabels()))],
+        ]);
+
+        if (!$shippingFee->update($validatedData)) {
+
+            return redirect()->back()->withErrors(new MessageBag(['修改失敗']));
+
+        }
+
+        return redirect(route('admin.shippingFee.index'))->with('status', '修改成功');
+
     }
 
     public function updateStatus(Request $request)
