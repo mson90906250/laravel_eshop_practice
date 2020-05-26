@@ -207,7 +207,7 @@
 
                     </button>
 
-                    <a class="navbar-brand" href="index.html"><img src="{{ asset('images/front/logo.png') }}" class="logo" alt=""></a>
+                    <a class="navbar-brand" href="{{ route('shop.index') }}"><img src="{{ asset('images/front/logo.png') }}" class="logo" alt=""></a>
 
                 </div>
 
