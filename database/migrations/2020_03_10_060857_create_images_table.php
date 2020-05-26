@@ -32,12 +32,6 @@ class CreateImagesTable extends Migration
      */
     public function down()
     {
-        Schema::table('images', function ($table) {
-
-            $table->dropForeign('images_product_id_foreign');
-
-        });
-
         Schema::dropIfExists('images');
     }
 }

@@ -43,9 +43,9 @@ class CreateOrderStocksTable extends Migration
     {
         Schema::table('order_stock', function ($table) {
 
-            $table->$table->dropForeign('order_stock_order_id_foreign');
+            $table->dropForeign('order_stock_order_id_foreign');
 
-            $table->$table->dropForeign('order_stock_stock_id_foreign');
+            $table->dropForeign('order_stock_stock_id_foreign');
 
         });
 
