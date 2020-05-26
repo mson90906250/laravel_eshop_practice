@@ -335,11 +335,11 @@
 
                                         <div class="custom-control custom-radio">
 
-                                            <input id="{{ sprintf('shipping-type-%d', $key) }}" name="shipping-type" class="custom-control-input" type="radio" data-fee="{{ $shippingFeeList[$key] }}" value="{{ $key }}" required>
+                                            <input id="{{ sprintf('shipping-type-%d', $key) }}" name="shipping-type" class="custom-control-input" type="radio" data-fee="{{ $shippingFeeList[$key] ?? 0 }}" value="{{ $key }}" required>
 
                                             <label for="{{ sprintf('shipping-type-%d', $key) }}" class="custom-control-label">{{ $shipType }}</label>
 
-                                            <span class="float-right font-weight-bold">{{ $shippingFeeList[$key] ? sprintf('%d 元', $shippingFeeList[$key]) : '免費' }}</span>
+                                            <span class="float-right font-weight-bold">{{ isset($shippingFeeList[$key]) ? sprintf('%d 元', $shippingFeeList[$key]) : '免費' }}</span>
 
                                         </div>
 
