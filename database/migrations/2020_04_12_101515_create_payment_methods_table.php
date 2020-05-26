@@ -1,8 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\PaymentMethod;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreatePaymentMethodsTable extends Migration
 {
@@ -19,6 +21,13 @@ class CreatePaymentMethodsTable extends Migration
             $table->unsignedInteger('status'); //開啓 or 停用
             $table->string('logo_url');
         });
+
+        //insert LinePay
+        DB::table('payment_methods')->insert([
+            'name' => 'LinePay',
+            'status'   => PaymentMethod::STATUS_ON,
+            'logo_url' => 'images/payment-icon/LinePay.png'
+        ]);
     }
 
     /**
