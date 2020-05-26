@@ -200,7 +200,7 @@ class ProductController extends CustomController
             //建立資料夾
             if (!file_exists($storePath)) {
 
-                mkdir($storePath);
+                mkdir($storePath, 0777, TRUE);
 
             }
 
