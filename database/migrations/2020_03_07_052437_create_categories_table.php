@@ -18,7 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->unsignedBigInteger('parent_id')->nullable(); //parent_id為null時會導致unique的機制失效 需額外寫一個判斷的方法
             $table->string('name');
 
-            $table->unique(['parent_id', 'category']);
+            $table->unique(['parent_id', 'name']);
 
             $table->foreign('parent_id')
                 ->references('id')
