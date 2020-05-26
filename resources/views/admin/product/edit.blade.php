@@ -811,9 +811,9 @@
 
                                         <div class="col-3 row-stock-image" style="display: flex; flex-direction: row; justify-content: center">
 
-                                            <img style="width: 75px" class="{{ sprintf('row-stock-image-%d', $stock['image_id']) }}" src="{{ $stock['image_for_stock_url'] ?? asset($stock['image']['url']) }}">
+                                            <img style="width: 75px" class="{{ sprintf('row-stock-image-%d', $stock['image_id']) }}" src="{{ $stock['image_for_stock_url'] ?? asset($stock['image']['url'] ?? config('custom.no_image_url')) }}">
 
-                                            <input type="text" class="image-for-stock-url {{ sprintf('row-stock-image-%d', $stock['image_id']) }}" name="stock[{{ $index }}][image_for_stock_url]" value="{{ $stock['image_for_stock_url'] ?? asset($stock['image']['url']) }}" style="visibility: hidden; height: 0px; width: 0px">
+                                            <input type="text" class="image-for-stock-url {{ sprintf('row-stock-image-%d', $stock['image_id']) }}" name="stock[{{ $index }}][image_for_stock_url]" value="{{ $stock['image_for_stock_url'] ?? asset($stock['image']['url'] ?? config('custom.no_image_url')) }}" style="visibility: hidden; height: 0px; width: 0px">
 
                                             <input type="text" class="image-for-stock {{ sprintf('row-stock-image-%d', $stock['image_id']) }}" name="stock[{{ $index }}][image_id]" value="{{ $stock['image_id'] ?? '' }}" style="visibility: hidden; height: 0px; width: 0px">
 
