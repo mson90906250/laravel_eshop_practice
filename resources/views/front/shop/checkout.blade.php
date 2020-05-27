@@ -86,21 +86,25 @@
                     dataType: "JSON",
                     success: function (data) {
 
-                        $('#last_name').val(data.last_name);
+                        if (data.last_name.length > 0) {
 
-                        $('#first_name').val(data.first_name);
+                            $('#last_name').val(data.last_name);
 
-                        $('#phone_number').val(data.phone_number);
+                            $('#first_name').val(data.first_name);
 
-                        $('#city').val(data.city).change();
+                            $('#phone_number').val(data.phone_number);
 
-                        $.when(districtAjax).then(function () {
+                            $('#city').val(data.city).change();
 
-                            $('#district').val(data.district);
+                            $.when(districtAjax).then(function () {
 
-                        });
+                                $('#district').val(data.district);
 
-                        $('#address').val(data.address);
+                            });
+
+                            $('#address').val(data.address);
+
+                        }
 
                     },
 
