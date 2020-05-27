@@ -42,13 +42,11 @@
 
                                     <li>
 
-                                        {!! Form::open(['url' => route('wishList.store'), 'method' => 'POST']) !!}
+                                        <a data-toggle='tooltip' data-placement='right' title='Add To Wishlist' href="{{ route('wishList.store', ['id' => $product->id]) }}">
 
-                                            {!! Form::number('id', $product->id, ['style' => 'display: none']) !!}
+                                            <i class="far fa-heart"></i>
 
-                                            {!! Form::button('<i class="far fa-heart"></i>', ['data-toggle' => 'tooltip', 'data-placement' => 'right', 'title' => 'Add To Wishlist', 'type' => 'Submit']) !!}
-
-                                        {!! Form::close() !!}
+                                        </a>
 
                                     </li>
 

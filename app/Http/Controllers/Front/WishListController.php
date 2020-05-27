@@ -31,24 +31,19 @@ class WishListController extends CustomController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'id' => ['required', 'integer', 'exists:products']
-        ]);
-
-        $user = Auth::guard('web')->user();
-
-        $newWish = new WishList();
-
-        $newWish->user_id = $user->id;
-
-        $newWish->product_id = $validatedData['id'];
-
         try {
+
+            $user = Auth::guard('web')->user();
+
+            $newWish = new WishList();
+
+            $newWish->user_id = $user->id;
+
+            $newWish->product_id = $request->id;
 
             $newWish->save();
 

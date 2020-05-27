@@ -498,7 +498,7 @@
 
                                 </button>
 
-                                <a class="btn hvr-hover" href="#" style="color: white; font-weight: 700">
+                                <a class="btn hvr-hover" href="{{ route('wishList.store', ['id' => $product->id]) }}" style="color: white; font-weight: 700">
 
                                     <i class="fas fa-heart"></i> Add to wishlist
 

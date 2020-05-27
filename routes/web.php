@@ -93,7 +93,7 @@ Route::group([
     //wish_list
     Route::get('wish-list', 'WishListController@index')->name('wishList.index');
 
-    Route::post('wish-list', 'WishListController@store')->name('wishList.store');
+    Route::get('with-list/add/{id}', 'WishListController@store')->name('wishList.store');
 
     Route::delete('wish-list/{id}', 'WishListController@destroy')->name('wishList.destroy');
 
