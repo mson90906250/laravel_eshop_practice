@@ -21,6 +21,7 @@ class CreateAdminsTable extends Migration
             $table->string('username')->unique();
             $table->string('password');
             $table->unsignedInteger('status')->default(Admin::STATUS_ON);
+            $table->timestamps();
         });
 
         //insert superadmin
