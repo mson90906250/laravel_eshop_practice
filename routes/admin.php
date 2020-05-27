@@ -169,17 +169,9 @@ Route::group([
     Route::delete('/shipping_fee/delete', 'ShippingFeeController@destroy')->name('admin.shippingFee.destroy');
 
     //report
-    Route::get('/report/monthlyReport', function () {
+    Route::get('/report/monthlyReport', 'ReportController@monthlyReport')->name('admin.report.monthlyReport');
 
-        return (new ReportController(new MonthlyReporter))->report(request());
-
-    })->name('admin.report.monthlyReport');
-
-    Route::get('/report/annualReport', function () {
-
-        return (new ReportController(new AnnualReporter))->report(request());
-
-    })->name('admin.report.annualReport');
+    Route::get('/report/annualReport', 'ReportController@annualReport')->name('admin.report.annualReport');
 });
 
 
