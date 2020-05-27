@@ -24,19 +24,13 @@ class Brand extends Model
 
     public static function getSelectOptions()
     {
-        $brandList = Cache::remember(static::CACHE_BRAND_OPTIONS, 300, function () {
+        $brandList = [];
 
-            $list = [];
+        foreach (self::select(['id', 'name'])->get() as $brand) {
 
-            foreach (self::select(['id', 'name'])->get() as $brand) {
+            $brandList[$brand->id] = $brand->name;
 
-                $list[$brand->id] = $brand->name;
-
-            }
-
-            return $list;
-
-        });
+        }
 
         return $brandList;
     }
