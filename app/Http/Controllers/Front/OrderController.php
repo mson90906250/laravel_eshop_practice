@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Config;
 use App\Http\Controllers\Common\CustomController;
 use App\Models\PaymentMethod;
 use ErrorException;
+use Illuminate\Support\Facades\Log;
+use PDO;
 
 class OrderController extends CustomController
 {
@@ -169,7 +171,7 @@ class OrderController extends CustomController
                     $productId = $item->attributes->product['id'];
 
                     //先扣掉商品庫存
-                    $stockQuery = DB::update('UPDATE stocks SET quantity = quantity - ? WHERE id = ? AND quantity >= ?', [$quantity, $stockId, $quantity]);
+                    $stockQuery = DB::update('UPDATE stocks SET quantity = quantity - '. $quantity .' WHERE id = '. $stockId .' AND quantity >= '. $quantity);
 
                     if ($stockQuery !== 1) {
 
