@@ -103,7 +103,7 @@
                 theme: 'snow'  // or 'bubble'
             });
 
-            var oldDescription = '{!! str_replace('\n', '\\\n', request()->old("description") ?? json_encode('')) !!}';
+            var oldDescription = String.raw`{!! request()->old("description") ?? json_encode('') !!}`;
 
             oldDescription = JSON.parse(oldDescription);
 

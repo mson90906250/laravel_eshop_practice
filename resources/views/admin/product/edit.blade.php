@@ -103,7 +103,7 @@
                 theme: 'snow'  // or 'bubble'
             });
 
-            var oldDescription = '{!! str_replace('\n', '\\\n', request()->old("description") ?? $product->description) !!}';
+            var oldDescription = String.raw`{!! request()->old("description") ?? $product->description !!}`;
 
             oldDescription = JSON.parse(oldDescription);
 

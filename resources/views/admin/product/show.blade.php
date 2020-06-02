@@ -36,7 +36,7 @@
                 },
             });
 
-            var oldDescription = '{!! str_replace('\n', '\\\n', $product->description) !!}';
+            var oldDescription = String.raw`{!! $product->description !!}`;
 
             oldDescription = JSON.parse(oldDescription);
 
