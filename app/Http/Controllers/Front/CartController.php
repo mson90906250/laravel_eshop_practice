@@ -327,16 +327,17 @@ class CartController extends CustomController
 
         }
 
-        Cart::session($sessionKey);
-
         Cookie::queue(self::CART_COOKIE_NAME, $sessionKey, 20);
+
+        return Cart::session($sessionKey);
+
     }
 
     public static function getCart()
     {
         $sessionKey = Cookie::get(self::CART_COOKIE_NAME);
 
-        $cart = $sessionKey ? Cart::session($sessionKey) : NULL;
+        $cart = $sessionKey ? Cart::session($sessionKey) : static::setCart();
 
         return $cart;
     }
