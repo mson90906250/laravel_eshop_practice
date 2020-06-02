@@ -488,7 +488,7 @@
 
                                 <input type="hidden" name="attributes[product][id]" value="{{ $product->id }}">
 
-                                <input type="hidden" name="attributes[stock][image]" value="{{ $onlyOneStock ? asset($onlyOneStock->image_url) : NULL }}">
+                                <input type="hidden" name="attributes[stock][image]" value="{{ $onlyOneStock ? asset($onlyOneStock->image->url) : NULL }}">
 
                                 <input type="hidden" name="attributes[stock][maxQuantity]" value="{{ $onlyOneStock ? $onlyOneStock->quantity : NULL }}">
 

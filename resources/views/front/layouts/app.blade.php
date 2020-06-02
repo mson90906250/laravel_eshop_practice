@@ -283,7 +283,7 @@
 
                                     <a href="#" class="photo">
 
-                                        <img src="{{ asset($item->attributes->image) }}" class="cart-thumb" alt="" />
+                                        <img src="{{ asset($item->attributes->stock['image']) }}" class="cart-thumb" alt="" />
 
                                     </a>
 
