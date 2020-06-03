@@ -496,14 +496,14 @@
 
             });
 
-             //勾選創建新品牌
-            var input =$('#brand-input');
-
+            //--勾選創建新品牌
             var textInput = '<input type="text" id="new_brand_name" name="new_brand_name" placeholder="請輸入要創建的品牌名稱" class="form-control">';
 
             var selectInput;
 
             $('#new_brand').on('change', function () {
+
+                var input =$('#brand-input');
 
                 if (this.checked) {
 
@@ -516,6 +516,40 @@
                 } else {
 
                     input.html(selectInput);
+
+                }
+
+            });
+            //--
+
+            //--勾選創建新種類
+            var newCategoryNameHtml = '<label for="new_category_name">新類型名稱</label>' +
+                                    '<input type="text" class="form-control" name="new_category_name" id="new_category_name" value="{{ old('new_category_name') }}">';
+
+            var newCategoryParentIdHtml = '<label for="new_category_parent_id">主類型</label>' +
+                                            '<select class="form-control" name="new_category_parent_id" id="new_category_parent_id">' +
+                                                '<option value="">沒有主類型</option>' +
+                                                @foreach (Category::getSelectOptions(TRUE) as $k => $v)
+                                                    '<option value="{{ $k }}" {{ $k == old('new_category_parent_id') ? 'selected' : '' }} >{{ $v }}</option>' +
+                                                @endforeach
+                                            '</select>';
+
+            var oldCategoryHtml;
+
+            $('#new_category').on('change', function () {
+
+                var input =$('#category-input');
+
+                if (this.checked) {
+
+                    //以創建新種類的input取代select
+                    oldCategoryHtml = input.html();
+
+                    input.html(newCategoryNameHtml + newCategoryParentIdHtml);
+
+                } else {
+
+                    input.html(oldCategoryHtml);
 
                 }
 
@@ -596,45 +630,55 @@
                     {{-- category --}}
                     <div class="col-7 p-3">
 
-                        <p style="margin:0 -0.75rem">種類 (可複選)</p>
+                        <p style="margin:0 -0.75rem">
+
+                            種類 (可複選)
+
+                            <label><input class="ml-3" type="checkbox" id="new_category" name="new_category" value=1>創建新種類</label>
+
+                        </p>
 
                         <hr>
 
-                        <div class="row mt-3" style="width: 100%;">
+                        <div id="category-input" style="width: 100%">
 
-                            @foreach ($categoryList as $category)
+                            <div class="row mt-3" style="width: 100%;">
 
-                                <div class="col-3 mb-5">
+                                @foreach ($categoryList as $category)
 
-                                    <label class="parent-category">
+                                    <div class="col-3 mb-5">
 
-                                        <input type="checkbox" name='category[]' value="{{ $category->id }}" {{ in_array($category->id, request()->old('category') ?? $ownedCategoryList) ? 'checked' : '' }}>
+                                        <label class="parent-category">
 
-                                        {{ $category->name }}
+                                            <input type="checkbox" name='category[]' value="{{ $category->id }}" {{ in_array($category->id, request()->old('category') ?? $ownedCategoryList) ? 'checked' : '' }}>
 
-                                    </label>
+                                            {{ $category->name }}
 
-                                    @if (!$category->subcategories->isEmpty())
+                                        </label>
 
-                                        <hr style="margin: 0 0 5px 0">
+                                        @if (!$category->subcategories->isEmpty())
 
-                                        @foreach ($category->subcategories as $subcategory)
+                                            <hr style="margin: 0 0 5px 0">
 
-                                            <label class="ml-2 sub-category" style="width: 100%">
+                                            @foreach ($category->subcategories as $subcategory)
 
-                                                <input type="checkbox" name='category[]' value="{{ $subcategory->id }}"  {{ in_array($subcategory->id, request()->old('category') ?? $ownedCategoryList) ? 'checked' : '' }}>
+                                                <label class="ml-2 sub-category" style="width: 100%">
 
-                                                {{ $subcategory->name }}
+                                                    <input type="checkbox" name='category[]' value="{{ $subcategory->id }}"  {{ in_array($subcategory->id, request()->old('category') ?? $ownedCategoryList) ? 'checked' : '' }}>
 
-                                            </label>
+                                                    {{ $subcategory->name }}
 
-                                        @endforeach
+                                                </label>
 
-                                    @endif
+                                            @endforeach
 
-                                </div>
+                                        @endif
 
-                            @endforeach
+                                    </div>
+
+                                @endforeach
+
+                            </div>
 
                         </div>
 

@@ -68,8 +68,21 @@ class ProductController extends CustomController
             'brand'                     => ['required_unless:new_brand,1', 'integer', 'exists:brands,id'],
             'new_brand'                 => [Rule::requiredIf($request->get('new_brand')), 'boolean'],
             'new_brand_name'            => [Rule::requiredIf($request->get('new_brand')), 'string', 'unique:brands,name'],
-            'category'                  => ['required', 'array'],
-            'category.*'                => ['required', 'exists:categories,id'],
+            'category'                  => ['required_unless:new_category,1', 'array'],
+            'category.*'                => ['required_unless:new_category,1', 'exists:categories,id'],
+            'new_category'              => [Rule::requiredIf($request->get('new_category')), 'boolean'],
+            'new_category_name'         => [Rule::requiredIf($request->get('new_category')), 'string'],
+            'new_category_parent_id'    => ['nullable',
+                                            'integer',
+                                            Rule::exists('categories', 'id')->where(function ($query) {
+                                                $query->where([
+                                                    ['parent_id', '=', NULL]
+                                                ]);
+                                            }),
+                                            Rule::unique('categories', 'parent_id')->where(function ($query) use($request) {
+                                                return $query->where('name', $request->get('new_category_name'))
+                                                            ->where('parent_id', $request->get('new_category_parent_id'));
+                                            }),],
             'original_price'            => ['required', 'integer', 'min:0'],
             'status'                    => ['required', 'integer', Rule::in(array_keys(Product::getStatusLabels()))],
             'description'               => ['nullable', 'string'],
@@ -101,6 +114,22 @@ class ProductController extends CustomController
 
                 }
 
+                //創建新種類
+                if (isset($validatedData['new_category']) && $validatedData['new_category']) {
+
+                    $newCategory = Category::create([
+                        'name' => $validatedData['new_category_name'],
+                        'parent_id' => $validatedData['new_category_parent_id']
+                    ]);
+
+                    if (!$newCategory) {
+
+                        throw new \ErrorException('商品類型創建失敗');
+
+                    }
+
+                }
+
                 $newProduct = Product::create([
                     'name'              => $validatedData['name'],
                     'brand_id'          => isset($validatedData['new_brand']) && $validatedData['new_brand'] ? $newBrand->id : $validatedData['brand'],
@@ -116,7 +145,16 @@ class ProductController extends CustomController
                 }
 
                 //儲存商品種類
-                $newProduct->categories()->attach($validatedData['category']);
+                if (isset($validatedData['new_category']) && $validatedData['new_category']) {
+
+                    $newProduct->categories()->attach($newCategory);
+
+                } else {
+
+                    $newProduct->categories()->attach($validatedData['category']);
+
+                }
+
 
                 //更新圖片的product_id
                 $updateImages = Image::whereIn('id', $validatedData['images_to_store'])
@@ -312,8 +350,21 @@ class ProductController extends CustomController
             'brand'                     => ['required_unless:new_brand,1', 'integer', 'exists:brands,id'],
             'new_brand'                 => [Rule::requiredIf($request->get('new_brand')), 'boolean'],
             'new_brand_name'            => [Rule::requiredIf($request->get('new_brand')), 'string', 'unique:brands,name'],
-            'category'                  => ['required', 'array'],
-            'category.*'                => ['required', 'exists:categories,id'],
+            'category'                  => ['required_unless:new_category,1', 'array'],
+            'category.*'                => ['required_unless:new_category,1', 'exists:categories,id'],
+            'new_category'              => [Rule::requiredIf($request->get('new_category')), 'boolean'],
+            'new_category_name'         => [Rule::requiredIf($request->get('new_category')), 'string'],
+            'new_category_parent_id'    => ['nullable',
+                                            'integer',
+                                            Rule::exists('categories', 'id')->where(function ($query) {
+                                                $query->where([
+                                                    ['parent_id', '=', NULL]
+                                                ]);
+                                            }),
+                                            Rule::unique('categories', 'parent_id')->where(function ($query) use($request) {
+                                                return $query->where('name', $request->get('new_category_name'))
+                                                            ->where('parent_id', $request->get('new_category_parent_id'));
+                                            }),],
             'original_price'            => ['required', 'integer', 'min:0'],
             'status'                    => ['required', 'integer', Rule::in(array_keys(Product::getStatusLabels()))],
             'description'               => ['nullable', 'string'],
@@ -346,6 +397,22 @@ class ProductController extends CustomController
 
                 }
 
+                //創建新種類
+                if (isset($validatedData['new_category']) && $validatedData['new_category']) {
+
+                    $newCategory = Category::create([
+                        'name' => $validatedData['new_category_name'],
+                        'parent_id' => $validatedData['new_category_parent_id']
+                    ]);
+
+                    if (!$newCategory) {
+
+                        throw new \ErrorException('商品類型創建失敗');
+
+                    }
+
+                }
+
                 $updateProduct = $product->update([
                     'name' => $validatedData['name'],
                     'brand_id' =>  isset($validatedData['new_brand']) && $validatedData['new_brand'] ? $newBrand->id : $validatedData['brand'],
@@ -363,7 +430,16 @@ class ProductController extends CustomController
                 //儲存商品種類
                 $product->categories()->detach();
 
-                $product->categories()->attach($validatedData['category']);
+                 //儲存商品種類
+                 if (isset($validatedData['new_category']) && $validatedData['new_category']) {
+
+                    $product->categories()->attach($newCategory);
+
+                } else {
+
+                    $product->categories()->attach($validatedData['category']);
+
+                }
 
                 //更新圖片的product_id 並 將圖片的is_first_image都設為false
                 $updateImages = Image::whereIn('id', $validatedData['images_to_store'])
