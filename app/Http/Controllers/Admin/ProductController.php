@@ -3,17 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use finfo;
+use App\Models\Brand;
+use App\Models\Image;
+use App\Models\Stock;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use App\Http\Controllers\Common\CustomController;
-use App\Models\Image;
-use App\Models\Stock;
-use Illuminate\Support\MessageBag;
 
 class ProductController extends CustomController
 {
@@ -64,7 +65,9 @@ class ProductController extends CustomController
     {
         $validatedData = $request->validate([
             'name'                      => ['required', 'string'],
-            'brand'                     => ['required', 'integer', 'exists:brands,id'],
+            'brand'                     => ['required_unless:new_brand,1', 'integer', 'exists:brands,id'],
+            'new_brand'                 => [Rule::requiredIf($request->get('new_brand')), 'boolean'],
+            'new_brand_name'            => [Rule::requiredIf($request->get('new_brand')), 'string', 'unique:brands,name'],
             'category'                  => ['required', 'array'],
             'category.*'                => ['required', 'exists:categories,id'],
             'original_price'            => ['required', 'integer', 'min:0'],
@@ -85,9 +88,22 @@ class ProductController extends CustomController
 
             DB::transaction(function () use ($validatedData) {
 
+                //創建新品牌
+                if (isset($validatedData['new_brand']) && $validatedData['new_brand']) {
+
+                    $newBrand = Brand::create(['name' => $validatedData['new_brand_name']]);
+
+                    if (!$newBrand) {
+
+                        throw new \ErrorException('商品品牌創建失敗');
+
+                    }
+
+                }
+
                 $newProduct = Product::create([
                     'name'              => $validatedData['name'],
-                    'brand_id'          => $validatedData['brand'],
+                    'brand_id'          => isset($validatedData['new_brand']) && $validatedData['new_brand'] ? $newBrand->id : $validatedData['brand'],
                     'original_price'    => $validatedData['original_price'],
                     'status'            => $validatedData['status'],
                     'description'       => $validatedData['description'],
@@ -293,7 +309,9 @@ class ProductController extends CustomController
     {
         $validatedData = $request->validate([
             'name'                      => ['required', 'string'],
-            'brand'                     => ['required', 'integer', 'exists:brands,id'],
+            'brand'                     => ['required_unless:new_brand,1', 'integer', 'exists:brands,id'],
+            'new_brand'                 => [Rule::requiredIf($request->get('new_brand')), 'boolean'],
+            'new_brand_name'            => [Rule::requiredIf($request->get('new_brand')), 'string', 'unique:brands,name'],
             'category'                  => ['required', 'array'],
             'category.*'                => ['required', 'exists:categories,id'],
             'original_price'            => ['required', 'integer', 'min:0'],
@@ -315,9 +333,22 @@ class ProductController extends CustomController
         try {
             DB::transaction(function () use ($validatedData, $product) {
 
+                //創建新品牌
+                if (isset($validatedData['new_brand']) && $validatedData['new_brand']) {
+
+                    $newBrand = Brand::create(['name' => $validatedData['new_brand_name']]);
+
+                    if (!$newBrand) {
+
+                        throw new \ErrorException('商品品牌創建失敗');
+
+                    }
+
+                }
+
                 $updateProduct = $product->update([
                     'name' => $validatedData['name'],
-                    'brand_id' => $validatedData['brand'],
+                    'brand_id' =>  isset($validatedData['new_brand']) && $validatedData['new_brand'] ? $newBrand->id : $validatedData['brand'],
                     'original_price' => $validatedData['original_price'],
                     'status' => $validatedData['status'],
                     'description' => $validatedData['description'],

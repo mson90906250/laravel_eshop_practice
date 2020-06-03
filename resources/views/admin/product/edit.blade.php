@@ -496,6 +496,32 @@
 
             });
 
+             //勾選創建新品牌
+            var input =$('#brand-input');
+
+            var textInput = '<input type="text" id="new_brand_name" name="new_brand_name" placeholder="請輸入要創建的品牌名稱" class="form-control">';
+
+            var selectInput;
+
+            $('#new_brand').on('change', function () {
+
+                if (this.checked) {
+
+                    //以創建新品牌的input取代select
+                    selectInput = input.html();
+
+                    input.html(textInput);
+
+
+                } else {
+
+                    input.html(selectInput);
+
+                }
+
+            });
+            //--
+
         });
 
     </script>
@@ -539,7 +565,31 @@
 
                     <div class="col-7 p-3">
 
-                        {!! Form::bsSelect('品牌', 'brand', request()->old('brand') ?? $product->brand_id, Brand::getSelectOptions(), '', 'vertical') !!}
+                        <div class="row">
+
+                            <label for="brand">
+
+                                品牌
+
+                                <label><input class="ml-3" type="checkbox" id="new_brand" name="new_brand" value=1>創建新品牌</label>
+
+                            </label>
+
+                            <div id="brand-input" style="width: 100%">
+
+                                <select class="form-control" name="brand" id="brand">
+
+                                    @foreach (Brand::getSelectOptions() as $k => $v)
+
+                                            <option value="{{ $k }}" {{ $k == request()->old('brand') || $k == $product->brand_id ? 'selected' : '' }} >{{ $v }}</option>
+
+                                    @endforeach
+
+                                </select>
+
+                            </div>
+
+                        </div>
 
                     </div>
 
