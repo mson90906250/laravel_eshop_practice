@@ -24,6 +24,6 @@
     },
     "dependencies": {
         "croppie": "^2.6.4",
-        "moment": "^2.24.0"
+        "moment": "^2.29.4"
     }
 }
